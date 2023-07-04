@@ -90,8 +90,15 @@ public class BinomialHeap
 	 * 
 	 */
 	public void decreaseKey(HeapItem item, int diff) 
-	{    
-		return; // should be replaced by student code
+	{
+		item.key -= diff;
+		while(item.key < item.node.parent.item.key) {
+			HeapItem parentItem = item.node.parent.item;
+			item.node.parent.item = item;
+			parentItem.node = item.node;
+			item.node.item = parentItem;
+			item.node = item.node.parent;
+		}
 	}
 
 	/**

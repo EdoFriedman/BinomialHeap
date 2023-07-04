@@ -79,7 +79,7 @@ public class BinomialHeap
 	 */
 	public HeapItem findMin()
 	{
-		return null; // should be replaced by student code
+		return min.item;
 	} 
 
 	/**

@@ -38,6 +38,7 @@ public class BinomialHeap
 	public void deleteMin()
 	{
 		HeapNode min = this.min;
+		int treeSize = (int) Math.pow(2, min.rank);
 		if(last == min) {
 			while(last.next != min) {
 				last = last.next;
@@ -56,10 +57,11 @@ public class BinomialHeap
 			iter = iter.next;
 			if(iter.item.key < this.min.item.key) this.min = iter;
 		}
-		size -= Math.pow(2,min.rank);
+		size -= treeSize;
 
 		// We removed the old minimum's tree from the heap, so we need to meld its children back
 		BinomialHeap tempHeap = new BinomialHeap();
+		tempHeap.size = treeSize;
 		tempHeap.last = min.child;
 		tempHeap.min = tempHeap.last;
 		tempHeap.last.parent = null;

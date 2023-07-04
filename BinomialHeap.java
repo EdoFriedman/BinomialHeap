@@ -36,8 +36,39 @@ public class BinomialHeap
 	 */
 	public void deleteMin()
 	{
-		return; // should be replaced by student code
+		HeapNode min = this.min;
+		if(last == min) {
+			while(last.next != min) {
+				last = last.next;
+			}
+		}
 
+		HeapNode iter = last;
+		while(iter.next != min) {
+			iter = iter.next;
+		}
+		iter.next = iter.next.next; // delete the old minimum from the linked list
+
+		this.min = last;
+		iter = last;
+		while(iter.next != last) {
+			iter = iter.next;
+			if(iter.item.key < this.min.item.key) this.min = iter;
+		}
+		size -= Math.pow(2,min.rank);
+
+		// We removed the old minimum's tree from the heap, so we need to meld its children back
+		BinomialHeap tempHeap = new BinomialHeap();
+		tempHeap.last = min.child;
+		tempHeap.min = tempHeap.last;
+		tempHeap.last.parent = null;
+		iter = tempHeap.last;
+		while(iter.next != tempHeap.last) {
+			iter = iter.next;
+			iter.parent = null;
+			if(iter.item.key < tempHeap.min.item.key) tempHeap.min = iter;
+		}
+		this.meld(tempHeap);
 	}
 
 	/**

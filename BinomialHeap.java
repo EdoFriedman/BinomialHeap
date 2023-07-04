@@ -18,8 +18,15 @@ public class BinomialHeap
 	 *
 	 */
 	public HeapItem insert(int key, String info) 
-	{    
-		return; // should be replaced by student code
+	{
+        HeapItem item = new HeapItem(key, info);
+        HeapNode node = new HeapNode(item, null, null, null, 1);
+        BinomialHeap tempHeap = new BinomialHeap();
+        tempHeap.size = 1;
+        tempHeap.last = node;
+        min = node;
+        this.meld(tempHeap);
+		return item;
 	}
 
 	/**
@@ -116,6 +123,15 @@ public class BinomialHeap
 		public HeapNode next;
 		public HeapNode parent;
 		public int rank;
+
+        public HeapNode(HeapItem item, HeapNode child, HeapNode next, HeapNode parent, int rank) {
+            this.item = item;
+            item.node = this;
+            this.child = child;
+            this.next = next;
+            this.parent = parent;
+            this.rank = rank;
+        }
 	}
 
 	/**
@@ -126,6 +142,11 @@ public class BinomialHeap
 		public HeapNode node;
 		public int key;
 		public String info;
+
+        public HeapItem(int key, String info) {
+            this.key = key;
+            this.info = info;
+        }
 	}
 
 }

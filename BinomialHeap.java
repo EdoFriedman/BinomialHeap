@@ -20,7 +20,8 @@ public class BinomialHeap
 	public HeapItem insert(int key, String info) 
 	{
         HeapItem item = new HeapItem(key, info);
-        HeapNode node = new HeapNode(item, null, null, null, 1);
+        HeapNode node = new HeapNode(item, null, null, null, 0);
+		node.next = node;
         BinomialHeap tempHeap = new BinomialHeap();
         tempHeap.size = 1;
         tempHeap.last = node;

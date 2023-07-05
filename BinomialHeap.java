@@ -113,7 +113,8 @@ public class BinomialHeap
 	 */
 	public void delete(HeapItem item) 
 	{
-		return; // should be replaced by student code
+		decreaseKey(item, item.key - 1); // set key -1
+		deleteMin();
 	}
 
 	/**

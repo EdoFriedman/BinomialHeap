@@ -180,7 +180,7 @@ public class BinomialHeap
 	 */
 	public int size()
 	{
-		return 42; // should be replaced by student code
+		return size;
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class BinomialHeap
 	 */
 	public boolean empty()
 	{
-		return false; // should be replaced by student code
+		return size == 0;
 	}
 
 	/**
@@ -201,7 +201,14 @@ public class BinomialHeap
 	 */
 	public int numTrees()
 	{
-		return 0; // should be replaced by student code
+		if(empty()) return 0;
+		HeapNode iter = last;
+		int count = 1;
+		while(iter.next != last) {
+			iter = iter.next;
+			count++;
+		}
+		return count;
 	}
 
 	/**

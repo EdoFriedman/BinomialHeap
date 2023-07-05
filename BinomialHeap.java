@@ -25,7 +25,7 @@ public class BinomialHeap
         BinomialHeap tempHeap = new BinomialHeap();
         tempHeap.size = 1;
         tempHeap.last = node;
-        min = node;
+        tempHeap.min = node;
         this.meld(tempHeap);
 		return item;
 	}

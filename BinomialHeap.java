@@ -150,7 +150,7 @@ public class BinomialHeap
 		HeapNode carry = null;
 		int maxRank = Math.max(this.last.rank, heap2.last.rank) + 1;
 		for(int rank = 0; rank <= maxRank; rank++) {
-			if(iter1.next != null && iter1.next.rank < rank) iter1 = iter1.next;
+			if(iter1.next != null && iter1.next.rank < rank && iter1.next.next.rank >= rank) iter1 = iter1.next;
 			if(iter2 != null && iter2.rank < rank) iter2 = iter2.next;
 			HeapNode current2 = iter2;
 			HeapNode resNoCarry = null;

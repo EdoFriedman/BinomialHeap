@@ -160,17 +160,17 @@ public class BinomialHeap
 	 * Links two binomial trees of the same degree
 	 * Returns the new root of the tree so that the previous tree can be updated to point to it
 	 */
-	private HeapNode link(HeapNode x, HeapNode y) {
-		// We want the lesser number to be the root
-		if(x.item.key > y.item.key) {
-			HeapNode temp = x;
-			x = y;
-			y = temp;
+	private HeapNode link(HeapNode node1, HeapNode node2) {
+		// We want the lesser number to be the root, so make sure node1 is less than node2
+		if(node1.item.key > node2.item.key) {
+			HeapNode temp = node1;
+			node1 = node2;
+			node2 = temp;
 		}
-		y.next = x.child.next;
-		x.child.next = y;
-		x.child = y;
-		return x;
+		node2.next = node1.child.next;
+		node1.child.next = node2;
+		node1.child = node2;
+		return node1;
 	}
 
 	/**

@@ -101,6 +101,9 @@ public class BinomialHeap
 			item.node.item = parentItem;
 			item.node = item.node.parent;
 		}
+		if(item.key < min.item.key) {
+			min = item.node;
+		}
 	}
 
 	/**
@@ -109,7 +112,7 @@ public class BinomialHeap
 	 *
 	 */
 	public void delete(HeapItem item) 
-	{    
+	{
 		return; // should be replaced by student code
 	}
 

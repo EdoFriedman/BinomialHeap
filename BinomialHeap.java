@@ -124,6 +124,12 @@ public class BinomialHeap
 	 */
 	public void meld(BinomialHeap heap2)
 	{
+		this.size += heap2.size;
+		if(this.last == null) {
+			this.last = heap2.last;
+			this.min = heap2.min;
+			return;
+		}
 		if(heap2.min.item.key < this.min.item.key) {
 			this.min = heap2.min;
 		}

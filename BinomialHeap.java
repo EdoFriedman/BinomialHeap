@@ -37,11 +37,15 @@ public class BinomialHeap
 	 */
 	public void deleteMin()
 	{
+		if(this.min == null) return;
 		HeapNode min = this.min;
 		int treeSize = (int) Math.pow(2, min.rank);
 		if(last == min) {
-			while(last.next != min) {
-				last = last.next;
+			if(last.next == min) last = null;
+			else {
+				while (last.next != min) {
+					last = last.next;
+				}
 			}
 		}
 
@@ -53,9 +57,11 @@ public class BinomialHeap
 
 		this.min = last;
 		iter = last;
-		while(iter.next != last) {
-			iter = iter.next;
-			if(iter.item.key < this.min.item.key) this.min = iter;
+		if(iter != null) {
+			while (iter.next != last) {
+				iter = iter.next;
+				if (iter.item.key < this.min.item.key) this.min = iter;
+			}
 		}
 		size -= treeSize;
 
@@ -81,6 +87,7 @@ public class BinomialHeap
 	 */
 	public HeapItem findMin()
 	{
+		if(min == null) return null;
 		return min.item;
 	} 
 

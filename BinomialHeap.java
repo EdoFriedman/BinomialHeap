@@ -124,7 +124,53 @@ public class BinomialHeap
 	 */
 	public void meld(BinomialHeap heap2)
 	{
-		return; // should be replaced by student code   		
+		if(heap2.min.item.key < this.min.item.key) {
+			this.min = heap2.min;
+		}
+		HeapNode iter1 = this.last;
+		HeapNode iter2 = heap2.last.next;
+		heap2.last.next = null;
+		while(iter2.next != null) {
+			HeapNode current2 = iter2;
+			if(iter1.next.rank == iter2.rank) {
+				iter2 = iter2.next;
+				current2.next = iter1.next; // current2 is about to be linked with iter1. If it's going to be the root it has to point to the next tree
+				iter1.next = link(iter1.next, current2);
+			}
+			else if(iter1.next.rank < iter2.rank) {
+				if(iter1.next != this.last)
+					iter1 = iter1.next;
+				else {
+					iter2 = iter2.next;
+					current2.next = this.last.next;
+					iter1.next.next = iter2;
+					this.last = iter2;
+				}
+			}
+			else {
+				// insert current2 between iter1 and iter1.next
+				iter2 = iter2.next;
+				current2.next = iter1.next;
+				iter1.next = current2;
+			}
+		}
+	}
+
+	/**
+	 * Links two binomial trees of the same degree
+	 * Returns the new root of the tree so that the previous tree can be updated to point to it
+	 */
+	private HeapNode link(HeapNode x, HeapNode y) {
+		// We want the lesser number to be the root
+		if(x.item.key > y.item.key) {
+			HeapNode temp = x;
+			x = y;
+			y = temp;
+		}
+		y.next = x.child.next;
+		x.child.next = y;
+		x.child = y;
+		return x;
 	}
 
 	/**

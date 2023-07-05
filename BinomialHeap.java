@@ -186,6 +186,7 @@ public class BinomialHeap
 				else {
 					resNoCarry.next = resNoCarry;
 					last = resNoCarry;
+					iter1 = last;
 				}
 			}
 			carry = nextCarry;

@@ -134,6 +134,7 @@ public class BinomialHeap
 	 */
 	public void meld(BinomialHeap heap2)
 	{
+		if(heap2.empty()) return;
 		this.size += heap2.size;
 		if(this.last == null) {
 			this.last = heap2.last;

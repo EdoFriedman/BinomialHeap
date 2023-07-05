@@ -123,7 +123,7 @@ public class BinomialHeap
 	 */
 	public void delete(HeapItem item) 
 	{
-		decreaseKey(item, item.key - 1); // set key -1
+		decreaseKey(item, item.key + 1); // set key to -1
 		deleteMin();
 	}
 

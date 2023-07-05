@@ -146,12 +146,19 @@ public class BinomialHeap
 		HeapNode iter1 = this.last;
 		HeapNode iter2 = heap2.last.next;
 		heap2.last.next = null;
-		while(iter2.next != null) {
+		while(iter2 != null) {
 			HeapNode current2 = iter2;
 			if(iter1.next.rank == iter2.rank) {
 				iter2 = iter2.next;
 				current2.next = iter1.next; // current2 is about to be linked with iter1. If it's going to be the root it has to point to the next tree
-				iter1.next = link(iter1.next, current2);
+				if(current2.next == iter1) current2.next = current2;
+				HeapNode newRoot = link(iter1.next, current2);
+				if(iter1 != iter1.next) {
+					iter1.next = newRoot;
+				}
+				else {
+					this.last = newRoot;
+				}
 			}
 			else if(iter1.next.rank < iter2.rank) {
 				if(iter1.next != this.last)
@@ -183,9 +190,16 @@ public class BinomialHeap
 			node1 = node2;
 			node2 = temp;
 		}
-		node2.next = node1.child.next;
-		node1.child.next = node2;
+		if(node1.child != null) {
+			node2.next = node1.child.next;
+			node1.child.next = node2;
+		}
+		else {
+			node2.next = node2;
+		}
 		node1.child = node2;
+		node2.parent = node1;
+		node1.rank++;
 		return node1;
 	}
 

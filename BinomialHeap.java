@@ -147,36 +147,48 @@ public class BinomialHeap
 		HeapNode iter1 = this.last;
 		HeapNode iter2 = heap2.last.next;
 		heap2.last.next = null;
-		while(iter2 != null) {
+		HeapNode carry = null;
+		int maxRank = Math.max(this.last.rank, heap2.last.rank) + 1;
+		for(int rank = 0; rank <= maxRank; rank++) {
+			if(iter1.next != null && iter1.next.rank < rank) iter1 = iter1.next;
+			if(iter2 != null && iter2.rank < rank) iter2 = iter2.next;
 			HeapNode current2 = iter2;
-			if(iter1.next.rank == iter2.rank) {
+			HeapNode resNoCarry = null;
+			HeapNode nextCarry = null;
+			if(iter1.next != null && iter1.next.rank == rank && iter2 != null && iter2.rank == rank) {
 				iter2 = iter2.next;
-				current2.next = iter1.next; // current2 is about to be linked with iter1. If it's going to be the root it has to point to the next tree
-				if(current2.next == iter1) current2.next = current2;
-				HeapNode newRoot = link(iter1.next, current2);
-				if(iter1 != iter1.next) {
-					iter1.next = newRoot;
+				current2.next = null;
+				nextCarry = link(removeNext(iter1), current2);
+			}
+			else if(iter1.next != null && iter1.next.rank == rank) {
+				resNoCarry = removeNext(iter1);
+			}
+			else if(iter2 != null && iter2.rank == rank) {
+				iter2 = iter2.next;
+				current2.next = null;
+				resNoCarry = current2;
+			}
+			if(carry != null) {
+				if(resNoCarry == null) {
+					resNoCarry = carry;
 				}
 				else {
-					this.last = newRoot;
+					nextCarry = link(carry, resNoCarry);
+					resNoCarry = null;
 				}
 			}
-			else if(iter1.next.rank < iter2.rank) {
-				if(iter1.next != this.last)
-					iter1 = iter1.next;
+			if(resNoCarry != null) {
+				if(this.last != null) {
+					resNoCarry.next = iter1.next;
+					iter1.next = resNoCarry;
+					if(this.last.rank < resNoCarry.rank) this.last = resNoCarry;
+				}
 				else {
-					iter2 = iter2.next;
-					current2.next = this.last.next;
-					iter1.next.next = iter2;
-					this.last = iter2;
+					resNoCarry.next = resNoCarry;
+					last = resNoCarry;
 				}
 			}
-			else {
-				// insert current2 between iter1 and iter1.next
-				iter2 = iter2.next;
-				current2.next = iter1.next;
-				iter1.next = current2;
-			}
+			carry = nextCarry;
 		}
 	}
 
@@ -202,6 +214,22 @@ public class BinomialHeap
 		node2.parent = node1;
 		node1.rank++;
 		return node1;
+	}
+
+	/**
+	 * Removes the node after root from the root linked list, WITHOUT removing it from min or changing size
+	 */
+	private HeapNode removeNext(HeapNode root) {
+		HeapNode removed = root.next;
+		if(root == root.next) {
+			last = null;
+		}
+		else {
+			if(last == root.next) last = root;
+			root.next = root.next.next;
+		}
+		removed.next = null;
+		return removed;
 	}
 
 	/**

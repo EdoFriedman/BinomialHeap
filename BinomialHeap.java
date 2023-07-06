@@ -147,25 +147,30 @@ public class BinomialHeap
 		HeapNode carry = null;
 		int maxRank = Math.max(this.last.rank, heap2.last.rank) + 1;
 		for(int rank = 0; rank <= maxRank; rank++) {
+			// the third condition is there to prevent iter1 from going back to the start of the loop but allow it to do so at the start (since it starts as this.last)
 			if(iter1.next != null && iter1.next.rank < rank && (iter1.next.next.rank >= rank || iter1.rank < iter1.next.rank)) iter1 = iter1.next;
 			if(iter2 != null && iter2.rank < rank) iter2 = iter2.next;
 			HeapNode current2 = iter2;
-			HeapNode resNoCarry = null;
-			HeapNode nextCarry = null;
+			HeapNode resNoCarry = null; // result of 1 bit binary addition of one to three trees of the same rank
+			HeapNode nextCarry = null; // If at least two trees are added, carry the rank+1 sized tree to the next rank
 			if(iter1.next != null && iter1.next.rank == rank && iter2 != null && iter2.rank == rank) {
+				// both heaps had trees of the current rank
 				iter2 = iter2.next;
 				current2.next = null;
 				nextCarry = link(removeNext(iter1), current2);
 			}
 			else if(iter1.next != null && iter1.next.rank == rank) {
+				// Only this had a tree of the current rank
 				resNoCarry = removeNext(iter1);
 			}
 			else if(iter2 != null && iter2.rank == rank) {
+				// Only heap2 had a tree of the current rank
 				iter2 = iter2.next;
 				current2.next = null;
 				resNoCarry = current2;
 			}
 			if(carry != null) {
+				// Add carry from the previous rank
 				if(resNoCarry == null) {
 					resNoCarry = carry;
 				}
@@ -175,6 +180,7 @@ public class BinomialHeap
 				}
 			}
 			if(resNoCarry != null) {
+				// Add the result to this (heap)
 				if(this.last != null) {
 					resNoCarry.next = iter1.next;
 					iter1.next = resNoCarry;
@@ -185,6 +191,7 @@ public class BinomialHeap
 					last = resNoCarry;
 					iter1 = last;
 				}
+				// Every new root goes through here, so update the minimum if needed
 				if(resNoCarry.item.key <= min.item.key) {
 					min = resNoCarry;
 				}

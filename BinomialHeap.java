@@ -141,9 +141,6 @@ public class BinomialHeap
 			this.min = heap2.min;
 			return;
 		}
-		if(heap2.min.item.key < this.min.item.key) {
-			this.min = heap2.min;
-		}
 		HeapNode iter1 = this.last;
 		HeapNode iter2 = heap2.last.next;
 		heap2.last.next = null;
@@ -187,6 +184,9 @@ public class BinomialHeap
 					resNoCarry.next = resNoCarry;
 					last = resNoCarry;
 					iter1 = last;
+				}
+				if(resNoCarry.item.key <= min.item.key) {
+					min = resNoCarry;
 				}
 			}
 			carry = nextCarry;

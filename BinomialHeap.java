@@ -290,6 +290,10 @@ public class BinomialHeap
             this.parent = parent;
             this.rank = rank;
         }
+
+		public HeapNode() {
+
+		}
 	}
 
 	/**
@@ -305,6 +309,10 @@ public class BinomialHeap
             this.key = key;
             this.info = info;
         }
+
+		public HeapItem() {
+
+		}
 	}
 
 }
